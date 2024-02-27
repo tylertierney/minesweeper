@@ -1,0 +1,12 @@
+* {
+  font-family: sans-serif;
+}
+
+body {
+  background: rgb(87, 92, 119);
+  color: white;
+}
+
+.row {
+  display: flex;
+}
