@@ -1,11 +1,31 @@
-* {
-  font-family: sans-serif;
+@font-face {
+  font-family: "minesweeper";
+  src: url('fonts/mine-sweeper.otf');
 }
 
-body {
-  background: rgb(87, 92, 119);
-  color: white;
+* {
+  font-family: "minesweeper", "monospace";
 }
+
+
+body {
+  background: #c6c6c6;
+  
+}
+
+.boardContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.boardHeader {
+  display: flex;
+}
+
+/* .board {
+  display: flex;
+  flex-direction: column;
+} */
 
 .row {
   display: flex;

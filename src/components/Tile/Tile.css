@@ -1,18 +1,24 @@
 .tile {
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
+  
   border: 1px solid white;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   position: relative;
+  font-size: 1rem;
 
-  span {
+  span.value {
+    font-weight: bold;
+    
+  }
+
+  div.cover {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    font-size: 12px;
-    opacity: 0.5;
+    height: 100%;
+    width: 100%;
+    background-color: darkgray;
   }
 }
