@@ -29,9 +29,17 @@ interface TileProps {
   tile: ITile;
   index: number;
   uncoverTile: (index: number) => void;
+  flagMode: boolean;
+  toggleFlag: (index: number) => void;
 }
 
-const Tile = ({ tile, index, uncoverTile }: TileProps) => {
+const Tile = ({
+  tile,
+  index,
+  uncoverTile,
+  flagMode,
+  toggleFlag,
+}: TileProps) => {
   const color = getColorFromValue(tile.value);
 
   const symbol = getSymbolFromValue(tile.value);
@@ -43,19 +51,32 @@ const Tile = ({ tile, index, uncoverTile }: TileProps) => {
           {symbol}
         </span>
       )}
+
       {tile.covered === true && (
-        <div className="cover" onClick={() => uncoverTile(index)}></div>
+        <div
+          className="cover"
+          onClick={(e) => {
+            uncoverTile(index);
+            e.stopPropagation();
+          }}
+        >
+          {tile.flagged === true && (
+            <div
+              className="flagSpot"
+              onClick={(e) => {
+                toggleFlag(index);
+                e.stopPropagation();
+              }}
+            >
+              ⛳️
+            </div>
+          )}
+        </div>
       )}
-      <span
-        style={{
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          fontSize: "0.5rem",
-        }}
-      >
-        {index}
-      </span>
+      {tile.covered === true && flagMode === true && !tile.flagged && (
+        <div className="flagSpot dot" onClick={() => toggleFlag(index)}></div>
+      )}
+      {/* <span style={{ fontSize: "0.5rem" }}>{index}</span> */}
     </div>
   );
 };
