@@ -161,12 +161,15 @@ export default function Dialog({
               place flags by right-clicking on a tile.
             </span>
           </p>
-          <p>
+          <p style={{ textAlign: "center" }}>
             Created by&nbsp;
             <a target="_blank" href="https://tylertierney.com">
               Tyler Tierney
             </a>
-            . View the full code&nbsp;
+            .
+          </p>
+          <p style={{ textAlign: "center" }}>
+            View the full code&nbsp;
             <a
               target="_blank"
               href="https://github.com/tylertierney/minesweeper"
