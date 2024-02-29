@@ -41,17 +41,17 @@ export default function App() {
   };
 
   useEffect(() => {
-    const interval = setInterval(
-      () =>
+    const interval = setInterval(() => {
+      if (gameActive) {
         setElapsedTime((prev) => {
           if (prev === 999) return prev;
           return prev + 1;
-        }),
-      1000
-    );
+        });
+      }
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [gameActive]);
 
   const remainingFlags =
     mineCount - tiles.reduce((acc, tile) => acc + Number(tile.flagged), 0);

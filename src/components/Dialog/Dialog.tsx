@@ -13,6 +13,7 @@ interface DialogProps {
   setHeight: Dispatch<SetStateAction<number>>;
   setMineCount: Dispatch<SetStateAction<number>>;
   resetGame: (width: number, height: number, mineCount: number) => void;
+  elapsedTime: number;
 }
 
 export default function Dialog({
@@ -25,6 +26,7 @@ export default function Dialog({
   setHeight,
   setMineCount,
   resetGame,
+  elapsedTime,
 }: DialogProps) {
   const [tempWidth, setTempWidth] = useState(width);
   const [tempHeight, setTempHeight] = useState(height);
@@ -66,12 +68,12 @@ export default function Dialog({
   useEffect(() => {
     const area = tempHeight * tempWidth;
     if (tempMineCount > area) {
-      setTempMineCount(area);
+      setTempMineCount(area - 1);
       if (mineCountInput.current) {
         mineCountInput.current.value = String(area);
       }
     }
-  }, [tempHeight, tempWidth, mineCountInput]);
+  }, [tempHeight, tempWidth, tempMineCount, mineCountInput]);
 
   return (
     <div className={styles.backdrop} onClick={() => setShowPortal(false)}>
@@ -91,6 +93,10 @@ export default function Dialog({
         <div className={styles.body}>
           <h1 className={styles.heading}>MINESWEEPER</h1>
           <h3 className={styles.gameOverMessage}>{gameOverMessage}</h3>
+          <p style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+            <span>{String(~~(elapsedTime / 60)).padStart(2, "0")}:</span>
+            <span>{String(elapsedTime % 60).padStart(2, "0")}</span>
+          </p>
 
           <label className={styles.label}>
             Width
@@ -121,7 +127,7 @@ export default function Dialog({
               value={tempMineCount}
               onChange={(e) => setTempMineCount(parseInt(e.target.value, 10))}
               min={5}
-              max={Math.min(24, tempHeight * tempWidth)}
+              max={Math.min(24, tempHeight * tempWidth - 1)}
               ref={mineCountInput}
             />
             <span className={styles.dimensionCount}>{tempMineCount}</span>

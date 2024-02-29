@@ -73,6 +73,7 @@ export default function BoardHeader({
               setHeight={setHeight}
               setMineCount={setMineCount}
               resetGame={resetGame}
+              elapsedTime={elapsedTime}
             />,
             document.body
           )}
