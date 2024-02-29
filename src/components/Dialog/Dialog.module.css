@@ -1,6 +1,7 @@
 .backdrop {
   width: 100vw;
   height: 100vh;
+  min-width: 100%;
   background: rgba(0, 0, 0, 0.239);
   display: flex;
   justify-content: center;
@@ -55,6 +56,27 @@
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 1rem;
+
+    .dimensionCount {
+      font-family: "minesweeper";
+      margin-left: auto;
+
+    }
+  }
+
+  .playAgainBtn {
+    font-family: "minesweeper";
+    border-right: 2px solid var(--dark-border);
+    border-bottom: 2px solid var(--dark-border);
+    border-top: 2px solid var(--white-border);
+    border-left: 2px solid var(--white-border);
+    padding: 0.5rem 1rem;
+    background-color: rgb(132, 132, 255);
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgb(183, 183, 255);
+    }
   }
 
 }

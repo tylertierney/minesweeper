@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import styles from "./Dialog.module.css";
 import { WinStatus } from "../../App";
@@ -8,9 +8,11 @@ interface DialogProps {
   winStatus: WinStatus;
   width: number;
   height: number;
+  mineCount: number;
   setWidth: Dispatch<SetStateAction<number>>;
   setHeight: Dispatch<SetStateAction<number>>;
-  resetGame: (width: number, height: number) => void;
+  setMineCount: Dispatch<SetStateAction<number>>;
+  resetGame: (width: number, height: number, mineCount: number) => void;
 }
 
 export default function Dialog({
@@ -18,12 +20,15 @@ export default function Dialog({
   winStatus,
   width,
   height,
+  mineCount,
   setWidth,
   setHeight,
+  setMineCount,
   resetGame,
 }: DialogProps) {
   const [tempWidth, setTempWidth] = useState(width);
   const [tempHeight, setTempHeight] = useState(height);
+  const [tempMineCount, setTempMineCount] = useState(mineCount);
 
   const gameOverMessage =
     winStatus === "won"
@@ -44,12 +49,29 @@ export default function Dialog({
     return () => document.removeEventListener("keyup", handleEscapeKey);
   }, [setShowPortal]);
 
-  const confirmDimensions = (width: number, height: number) => {
+  const confirmDimensions = (
+    width: number,
+    height: number,
+    mineCount: number
+  ) => {
     setWidth(width);
     setHeight(height);
+    setMineCount(mineCount);
     setShowPortal(false);
-    resetGame(width, height);
+    resetGame(width, height, mineCount);
   };
+
+  const mineCountInput = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const area = tempHeight * tempWidth;
+    if (tempMineCount > area) {
+      setTempMineCount(area);
+      if (mineCountInput.current) {
+        mineCountInput.current.value = String(area);
+      }
+    }
+  }, [tempHeight, tempWidth, mineCountInput]);
 
   return (
     <div className={styles.backdrop} onClick={() => setShowPortal(false)}>
@@ -69,25 +91,47 @@ export default function Dialog({
         <div className={styles.body}>
           <h1 className={styles.heading}>MINESWEEPER</h1>
           <h3 className={styles.gameOverMessage}>{gameOverMessage}</h3>
-          <label className={styles.label}>
-            Height
-            <input
-              type="range"
-              value={tempHeight}
-              onChange={(e) => setTempHeight(parseInt(e.target.value, 10))}
-            />
-            {tempHeight}
-          </label>
+
           <label className={styles.label}>
             Width
             <input
               type="range"
               value={tempWidth}
               onChange={(e) => setTempWidth(parseInt(e.target.value, 10))}
+              min={3}
+              max={16}
             />
-            {tempWidth}
+            <span className={styles.dimensionCount}>{tempWidth}</span>
           </label>
-          <button onClick={() => confirmDimensions(tempWidth, tempHeight)}>
+          <label className={styles.label}>
+            Height
+            <input
+              type="range"
+              value={tempHeight}
+              onChange={(e) => setTempHeight(parseInt(e.target.value, 10))}
+              min={3}
+              max={16}
+            />
+            <span className={styles.dimensionCount}>{tempHeight}</span>
+          </label>
+          <label className={styles.label}>
+            Mines
+            <input
+              type="range"
+              value={tempMineCount}
+              onChange={(e) => setTempMineCount(parseInt(e.target.value, 10))}
+              min={5}
+              max={Math.min(24, tempHeight * tempWidth)}
+              ref={mineCountInput}
+            />
+            <span className={styles.dimensionCount}>{tempMineCount}</span>
+          </label>
+          <button
+            className={styles.playAgainBtn}
+            onClick={() =>
+              confirmDimensions(tempWidth, tempHeight, tempMineCount)
+            }
+          >
             Play Again
           </button>
         </div>

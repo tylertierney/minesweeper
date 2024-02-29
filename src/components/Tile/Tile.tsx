@@ -59,6 +59,11 @@ const Tile = ({
             uncoverTile(index);
             e.stopPropagation();
           }}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            toggleFlag(index);
+            e.stopPropagation();
+          }}
         >
           {tile.flagged === true && (
             <div
@@ -74,7 +79,24 @@ const Tile = ({
         </div>
       )}
       {tile.covered === true && flagMode === true && !tile.flagged && (
-        <div className="flagSpot dot" onClick={() => toggleFlag(index)}></div>
+        <div
+          className="flagSpot"
+          onClick={() => toggleFlag(index)}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            toggleFlag(index);
+            e.stopPropagation();
+          }}
+        >
+          <FlagSVG
+            style={{
+              width: "1.7rem",
+              rotate: "30deg",
+              filter: "grayscale(100%)",
+              opacity: 0.25,
+            }}
+          />
+        </div>
       )}
       {/* <span style={{ fontSize: "0.5rem" }}>{index}</span> */}
     </div>

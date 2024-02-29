@@ -12,13 +12,15 @@ interface BoardHeaderProps {
   remainingFlags: number;
   width: number;
   height: number;
-  resetGame: (width: number, height: number) => void;
+  mineCount: number;
+  resetGame: (width: number, height: number, mineCount: number) => void;
   setFlagMode: Dispatch<SetStateAction<boolean>>;
   winStatus: WinStatus;
   showPortal: boolean;
   setShowPortal: Dispatch<SetStateAction<boolean>>;
   setWidth: Dispatch<SetStateAction<number>>;
   setHeight: Dispatch<SetStateAction<number>>;
+  setMineCount: Dispatch<SetStateAction<number>>;
 }
 
 export default function BoardHeader({
@@ -26,6 +28,7 @@ export default function BoardHeader({
   remainingFlags,
   width,
   height,
+  mineCount,
   resetGame,
   setFlagMode,
   winStatus,
@@ -33,6 +36,7 @@ export default function BoardHeader({
   setShowPortal,
   setWidth,
   setHeight,
+  setMineCount,
 }: BoardHeaderProps) {
   const elapsedTimeDigits = getDigits(elapsedTime);
 
@@ -64,8 +68,10 @@ export default function BoardHeader({
               setShowPortal={setShowPortal}
               width={width}
               height={height}
+              mineCount={mineCount}
               setWidth={setWidth}
               setHeight={setHeight}
+              setMineCount={setMineCount}
               resetGame={resetGame}
             />,
             document.body
@@ -73,7 +79,7 @@ export default function BoardHeader({
 
         <button
           className={styles.resetBtn}
-          onClick={() => resetGame(width, height)}
+          onClick={() => resetGame(width, height, mineCount)}
         >
           🙂
         </button>

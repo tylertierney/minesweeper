@@ -16,9 +16,10 @@ export interface ITile {
 export type WinStatus = null | "won" | "lost";
 
 export default function App() {
+  const [mineCount, setMineCount] = useState(10);
   const [width, setWidth] = useState(9);
   const [height, setHeight] = useState(9);
-  const [tiles, setTiles] = useState(generateTiles(width, height));
+  const [tiles, setTiles] = useState(generateTiles(width, height, mineCount));
   const [gameActive, setGameActive] = useState(true);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [flagMode, setFlagMode] = useState(false);
@@ -32,10 +33,10 @@ export default function App() {
     });
   };
 
-  const resetGame = (width: number, height: number) => {
+  const resetGame = (width: number, height: number, mineCount: number) => {
     setWinStatus(null);
     setElapsedTime(0);
-    setTiles(generateTiles(width, height));
+    setTiles(generateTiles(width, height, mineCount));
     setGameActive(true);
   };
 
@@ -53,7 +54,7 @@ export default function App() {
   }, []);
 
   const remainingFlags =
-    20 - tiles.reduce((acc, tile) => acc + Number(tile.flagged), 0);
+    mineCount - tiles.reduce((acc, tile) => acc + Number(tile.flagged), 0);
 
   useEffect(() => {
     const handleShiftKey = (type: "up" | "down") => (e: KeyboardEvent) => {
@@ -116,7 +117,7 @@ export default function App() {
 
   return (
     <>
-      <div className="boardContainer">
+      <div className="boardContainer" style={{ maxWidth: width * 40 + "px" }}>
         <BoardHeader
           elapsedTime={elapsedTime}
           remainingFlags={remainingFlags}
@@ -124,11 +125,13 @@ export default function App() {
           setFlagMode={setFlagMode}
           width={width}
           height={height}
+          mineCount={mineCount}
           winStatus={winStatus}
           showPortal={showPortal}
           setShowPortal={setShowPortal}
           setWidth={setWidth}
           setHeight={setHeight}
+          setMineCount={setMineCount}
         />
         {tiles.map((tile, i) => {
           return (

@@ -1,6 +1,6 @@
 import { ITile } from "./App";
 
-export const generateTiles = (width = 9, height = 9) => {
+export const generateTiles = (width = 9, height = 9, bombsToPlace = 10) => {
   const squares: ITile[] = Array(width * height)
     .fill(null)
     .map(() => ({
@@ -10,7 +10,6 @@ export const generateTiles = (width = 9, height = 9) => {
       background: "#c6c6c6",
     }));
 
-  let bombsToPlace = 10;
   while (bombsToPlace) {
     const random = ~~(Math.random() * (width * height));
     let i = 0;
