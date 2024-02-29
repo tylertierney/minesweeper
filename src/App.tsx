@@ -122,6 +122,7 @@ export default function App() {
           elapsedTime={elapsedTime}
           remainingFlags={remainingFlags}
           resetGame={resetGame}
+          flagMode={flagMode}
           setFlagMode={setFlagMode}
           width={width}
           height={height}
@@ -132,6 +133,7 @@ export default function App() {
           setWidth={setWidth}
           setHeight={setHeight}
           setMineCount={setMineCount}
+          gameActive={gameActive}
         />
         {tiles.map((tile, i) => {
           return (

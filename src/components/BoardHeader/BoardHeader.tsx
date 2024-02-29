@@ -14,6 +14,7 @@ interface BoardHeaderProps {
   height: number;
   mineCount: number;
   resetGame: (width: number, height: number, mineCount: number) => void;
+  flagMode: boolean;
   setFlagMode: Dispatch<SetStateAction<boolean>>;
   winStatus: WinStatus;
   showPortal: boolean;
@@ -21,6 +22,7 @@ interface BoardHeaderProps {
   setWidth: Dispatch<SetStateAction<number>>;
   setHeight: Dispatch<SetStateAction<number>>;
   setMineCount: Dispatch<SetStateAction<number>>;
+  gameActive: boolean;
 }
 
 export default function BoardHeader({
@@ -30,6 +32,7 @@ export default function BoardHeader({
   height,
   mineCount,
   resetGame,
+  flagMode,
   setFlagMode,
   winStatus,
   showPortal,
@@ -37,6 +40,7 @@ export default function BoardHeader({
   setWidth,
   setHeight,
   setMineCount,
+  gameActive,
 }: BoardHeaderProps) {
   const elapsedTimeDigits = getDigits(elapsedTime);
 
@@ -74,6 +78,7 @@ export default function BoardHeader({
               setMineCount={setMineCount}
               resetGame={resetGame}
               elapsedTime={elapsedTime}
+              gameActive={gameActive}
             />,
             document.body
           )}
@@ -85,7 +90,7 @@ export default function BoardHeader({
           🙂
         </button>
         <button
-          className={styles.resetBtn}
+          className={`${styles.resetBtn} ${flagMode ?? styles.flagModeActive}`}
           onClick={() => setFlagMode((prev) => !prev)}
         >
           <FlagSVG

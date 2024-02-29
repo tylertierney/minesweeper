@@ -14,6 +14,7 @@ interface DialogProps {
   setMineCount: Dispatch<SetStateAction<number>>;
   resetGame: (width: number, height: number, mineCount: number) => void;
   elapsedTime: number;
+  gameActive: boolean;
 }
 
 export default function Dialog({
@@ -27,6 +28,7 @@ export default function Dialog({
   setMineCount,
   resetGame,
   elapsedTime,
+  gameActive,
 }: DialogProps) {
   const [tempWidth, setTempWidth] = useState(width);
   const [tempHeight, setTempHeight] = useState(height);
@@ -46,10 +48,20 @@ export default function Dialog({
       }
     };
 
-    document.addEventListener("keyup", handleEscapeKey);
+    const handleEnterKey = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        confirmDimensions(width, height, mineCount);
+      }
+    };
 
-    return () => document.removeEventListener("keyup", handleEscapeKey);
-  }, [setShowPortal]);
+    document.addEventListener("keydown", handleEscapeKey);
+    document.addEventListener("keydown", handleEnterKey);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+      document.removeEventListener("keydown", handleEnterKey);
+    };
+  }, [setShowPortal, width, height, mineCount]);
 
   const confirmDimensions = (
     width: number,
@@ -93,13 +105,15 @@ export default function Dialog({
         <div className={styles.body}>
           <h1 className={styles.heading}>MINESWEEPER</h1>
           <h3 className={styles.gameOverMessage}>{gameOverMessage}</h3>
-          <p style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-            <span>{String(~~(elapsedTime / 60)).padStart(2, "0")}:</span>
-            <span>{String(elapsedTime % 60).padStart(2, "0")}</span>
-          </p>
+          {!gameActive && (
+            <p style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+              <span>{String(~~(elapsedTime / 60)).padStart(2, "0")}:</span>
+              <span>{String(elapsedTime % 60).padStart(2, "0")}</span>
+            </p>
+          )}
 
-          <label className={styles.label}>
-            Width
+          <label className={styles.sliderContainer}>
+            <span className={styles.label}>Width</span>
             <input
               type="range"
               value={tempWidth}
@@ -109,8 +123,8 @@ export default function Dialog({
             />
             <span className={styles.dimensionCount}>{tempWidth}</span>
           </label>
-          <label className={styles.label}>
-            Height
+          <label className={styles.sliderContainer}>
+            <span className={styles.label}>Height</span>
             <input
               type="range"
               value={tempHeight}
@@ -120,8 +134,8 @@ export default function Dialog({
             />
             <span className={styles.dimensionCount}>{tempHeight}</span>
           </label>
-          <label className={styles.label}>
-            Mines
+          <label className={styles.sliderContainer}>
+            <span className={styles.label}>Mines</span>
             <input
               type="range"
               value={tempMineCount}
@@ -140,6 +154,27 @@ export default function Dialog({
           >
             Play Again
           </button>
+          <p style={{ display: "flex", gap: "0.5rem" }}>
+            <span>Tip:</span>
+            <span>
+              You can hold the Shift key to activate flagging mode. You can also
+              place flags by right-clicking on a tile.
+            </span>
+          </p>
+          <p>
+            Created by&nbsp;
+            <a target="_blank" href="https://tylertierney.com">
+              Tyler Tierney
+            </a>
+            . View the full code&nbsp;
+            <a
+              target="_blank"
+              href="https://github.com/tylertierney/minesweeper"
+            >
+              here
+            </a>
+            .
+          </p>
         </div>
       </div>
     </div>
