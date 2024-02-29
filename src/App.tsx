@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import Tile from "./components/Tile/Tile";
 import "./index.css";
-import { generateTiles, getDigits, toggleFlag, uncoverTile } from "./utils";
+import { generateTiles, toggleFlag, uncoverTile } from "./utils";
+import BoardHeader from "./components/BoardHeader/BoardHeader";
 
 export type TileValue = number | "mine";
 
@@ -12,15 +13,16 @@ export interface ITile {
   background: "#c6c6c6" | "red";
 }
 
+export type WinStatus = null | "won" | "lost";
+
 export default function App() {
-  // const [width, setWidth] = useState(7);
-  // const [height, setHeight] = useState(7);
-  const width = 12;
-  const height = 12;
+  const [width, setWidth] = useState(9);
+  const [height, setHeight] = useState(9);
   const [tiles, setTiles] = useState(generateTiles(width, height));
   const [gameActive, setGameActive] = useState(true);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [flagMode, setFlagMode] = useState(false);
+  const [winStatus, setWinStatus] = useState<WinStatus>(null);
 
   const handleUncoverTile = (index: number) => {
     if (!gameActive) return;
@@ -28,16 +30,11 @@ export default function App() {
     setTiles((tiles) => {
       return uncoverTile(tiles, index, width, height);
     });
-
-    if (tiles[index].value === "mine") {
-      setGameActive(false);
-      return;
-    }
   };
 
-  const resetGame = () => {
+  const resetGame = (width: number, height: number) => {
+    setWinStatus(null);
     setElapsedTime(0);
-    // setBoard(() => new Board(width, height));
     setTiles(generateTiles(width, height));
     setGameActive(true);
   };
@@ -55,16 +52,12 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  const elapsedTimeDigits = getDigits(elapsedTime);
-
   const remainingFlags =
     20 - tiles.reduce((acc, tile) => acc + Number(tile.flagged), 0);
 
-  const remainingFlagsDigits = getDigits(remainingFlags);
-
   useEffect(() => {
     const handleShiftKey = (type: "up" | "down") => (e: KeyboardEvent) => {
-      if (e.key === "Shift") {
+      if (gameActive && e.key === "Shift") {
         if (type === "down") {
           setFlagMode(true);
         } else {
@@ -83,7 +76,7 @@ export default function App() {
       document.removeEventListener("keydown", shiftKeyDown);
       document.removeEventListener("keyup", shiftKeyUp);
     };
-  }, []);
+  }, [gameActive]);
 
   const handleToggleFlag = (index: number) => {
     if (!gameActive) return;
@@ -100,54 +93,43 @@ export default function App() {
       .map((tile) => tile.covered === false);
 
     if (coveredTiles.every((tile) => Boolean(tile))) {
-      console.log("YOU WON!");
+      setWinStatus("won");
+      setGameActive(false);
+    }
+
+    for (const tile of tiles) {
+      if (!tile.covered && tile.value === "mine") {
+        setWinStatus("lost");
+        setGameActive(false);
+        return;
+      }
     }
   }, [tiles]);
+
+  useEffect(() => {
+    if (!gameActive) {
+      setShowPortal(true);
+    }
+  }, [gameActive]);
+
+  const [showPortal, setShowPortal] = useState(false);
 
   return (
     <>
       <div className="boardContainer">
-        <div
-          className="boardHeader"
-          style={{ gridColumnStart: "span " + width }}
-        >
-          <div className="alarmContainer">
-            <div className="placeholder">
-              <div className="digit">8</div>
-              <div className="digit">8</div>
-              <div className="digit">8</div>
-            </div>
-            <div className="alarmText">
-              <div className="digit">{remainingFlagsDigits.hundreds}</div>
-              <div className="digit">{remainingFlagsDigits.tens}</div>
-              <div className="digit">{remainingFlagsDigits.ones}</div>
-            </div>
-          </div>
-          <div className="btnContainer">
-            <button className="resetBtn"></button>
-            <button className="resetBtn" onClick={() => resetGame()}>
-              🙂
-            </button>
-            <button
-              className="resetBtn"
-              onClick={() => setFlagMode((prev) => !prev)}
-            >
-              ⛳️
-            </button>
-          </div>
-          <div className="alarmContainer">
-            <div className="placeholder">
-              <div className="digit">8</div>
-              <div className="digit">8</div>
-              <div className="digit">8</div>
-            </div>
-            <div className="alarmText">
-              <div className="digit">{elapsedTimeDigits.hundreds}</div>
-              <div className="digit">{elapsedTimeDigits.tens}</div>
-              <div className="digit">{elapsedTimeDigits.ones}</div>
-            </div>
-          </div>
-        </div>
+        <BoardHeader
+          elapsedTime={elapsedTime}
+          remainingFlags={remainingFlags}
+          resetGame={resetGame}
+          setFlagMode={setFlagMode}
+          width={width}
+          height={height}
+          winStatus={winStatus}
+          showPortal={showPortal}
+          setShowPortal={setShowPortal}
+          setWidth={setWidth}
+          setHeight={setHeight}
+        />
         {tiles.map((tile, i) => {
           return (
             <Tile

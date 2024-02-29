@@ -1,0 +1,44 @@
+.alarmContainer {
+  font-family: "digital-7";
+  font-size: 36px;
+  padding: 0 0.5rem 0 0.5rem;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  position: relative;
+
+  .placeholder {
+    color: darkred;
+    opacity: 0.8;
+  }
+
+  .placeholder,
+  .alarmText {
+    display: flex;
+
+    .digit {
+      min-width: 22px;
+      text-align: right;
+    }
+  }
+
+  .alarmText {
+    color: red;
+    position: absolute;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .alarmContainer {
+    font-size: 24px;
+
+    .placeholder,
+    .alarmText {
+      .digit {
+        min-width: 16px;
+      }
+    }
+  }
+}

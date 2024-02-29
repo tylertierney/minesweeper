@@ -4,70 +4,33 @@
 }
 
 @font-face {
-  font-family: 'digital-7';
+  font-family: "digital-7";
   src: url("fonts/digital-7.ttf");
 }
 
+#root {
+  padding: 0.5rem;
+}
+
 body {
-  background: #c6c6c6;
+  --gray-bg: #c6c6c6;
+  background: var(--gray-bg);
+  --dark-border: rgb(132, 132, 132);
+  --white-border: white;
+  margin: 0;
 }
 
 .boardContainer {
   display: grid;
-  grid-auto-columns: minmax(auto, 42px);
+  grid-auto-columns: minmax(0, 1fr);
   grid-auto-rows: minmax(auto, 42px);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  font-family: "minesweeper", "monospace";
-}
-
-.boardHeader {
-  grid-column-start: span 9;
-  font-family: "digital-7";
-
-  display: flex;
-  align-items: stretch;
-  justify-content: space-around;
-
-  .alarmContainer {
-    font-size: 36px;
-    padding: 0 0.5rem 0 0.5rem;
-    font-weight: bolder;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: black;
-    position: relative;
-
-    .placeholder {
-      color: darkred;
-      opacity: 0.8;
-    }
-
-    .placeholder, .alarmText {
-      display: flex;
-
-      div.digit {
-        min-width: 22px;
-        text-align: right;
-      }
-    }
-
-    .alarmText {
-      color: red;
-      position: absolute;
-    }
-  }
-
-  button.resetBtn {
-    font-size: 1.5rem;
-    min-width: 48px;
-    background: none;
-    cursor: pointer;
-  }
-
+  max-width: 360px;
 }
 
 .row {
   display: flex;
 }
+
+

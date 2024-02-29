@@ -1,0 +1,32 @@
+.boardHeader {
+  grid-column-start: span 9;
+
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+
+  
+
+  .btnContainer {
+    display: flex;
+  }
+
+  .resetBtn {
+    font-size: 1.5rem;
+    min-width: 48px;
+    background: none;
+    cursor: pointer;
+    height: 100%;
+  
+    border-right: 2px solid var(--dark-border);
+    border-bottom: 2px solid var(--dark-border);
+    border-top: 2px solid var(--white-border);
+    border-left: 2px solid var(--white-border);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .boardHeader {
+    justify-content: space-between;
+  }
+}

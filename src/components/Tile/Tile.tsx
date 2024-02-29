@@ -1,5 +1,6 @@
 import "./Tile.css";
 import { ITile, TileValue } from "../../App";
+import FlagSVG from "../FlagSVG/FlagSVG";
 
 const getColorFromValue = (value: TileValue): string => {
   if (value === 1) return "blue";
@@ -22,6 +23,7 @@ const getColorFromValue = (value: TileValue): string => {
 
 const getSymbolFromValue = (value: TileValue) => {
   if (value === "mine") return "💣";
+  if (value === 0) return " ";
   return value;
 };
 
@@ -46,11 +48,9 @@ const Tile = ({
 
   return (
     <div className="tile" style={{ backgroundColor: tile.background }}>
-      {tile.value !== 0 && (
-        <span className={`value`} style={{ color }}>
-          {symbol}
-        </span>
-      )}
+      <span className={`value`} style={{ color }}>
+        {symbol}
+      </span>
 
       {tile.covered === true && (
         <div
@@ -68,7 +68,7 @@ const Tile = ({
                 e.stopPropagation();
               }}
             >
-              ⛳️
+              <FlagSVG style={{ width: "1.7rem", rotate: "30deg" }} />
             </div>
           )}
         </div>
