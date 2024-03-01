@@ -46,6 +46,8 @@ export default function BoardHeader({
 
   const remainingFlagsDigits = getDigits(remainingFlags);
 
+  console.log(flagMode);
+
   return (
     <div
       className={styles.boardHeader}
@@ -58,9 +60,10 @@ export default function BoardHeader({
           remainingFlagsDigits.ones,
         ]}
       />
+
       <div className={styles.btnContainer}>
         <button
-          className={styles.resetBtn}
+          className={styles.button}
           onClick={() => setShowPortal((prev) => !prev)}
         >
           ?
@@ -84,13 +87,14 @@ export default function BoardHeader({
           )}
 
         <button
-          className={styles.resetBtn}
+          className={styles.button}
           onClick={() => resetGame(width, height, mineCount)}
         >
           🙂
         </button>
         <button
-          className={`${styles.resetBtn} ${flagMode ?? styles.flagModeActive}`}
+          className={`${styles.button}
+          ${flagMode === true ? styles.flagModeActive : ""}`}
           onClick={() => setFlagMode((prev) => !prev)}
         >
           <FlagSVG
