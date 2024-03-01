@@ -16,7 +16,7 @@ export default defineConfig({
         background_color: "#c6c6c6",
         icons: [
           {
-            src: "/flag.svg",
+            src: "/minesweeper/flag.svg",
             sizes: "48x48 72x72 96x96 128x128 256x256 512x512",
             type: "image/svg+xml",
             purpose: "any",
