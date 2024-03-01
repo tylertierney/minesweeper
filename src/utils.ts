@@ -133,10 +133,26 @@ export const getDigits = (num: number) => {
   return { hundreds, tens, ones };
 };
 
-export const toggleFlag = (index: number, tiles: ITile[]) => {
+export const toggleFlag = (
+  index: number,
+  tiles: ITile[],
+  placeOrRemove: "place" | "remove",
+  mineCount: number
+) => {
+  const remainingFlags =
+    mineCount - tiles.reduce((acc, tile) => acc + Number(tile.flagged), 0);
+
   return tiles.map((tile, i) => {
+    let flagged = false;
+    if (placeOrRemove === "place") {
+      flagged = true;
+      if (remainingFlags === 0) {
+        flagged = tile.flagged;
+      }
+    }
+
     if (i === index) {
-      return { ...tile, flagged: !tile.flagged };
+      return { ...tile, flagged };
     }
     return tile;
   });

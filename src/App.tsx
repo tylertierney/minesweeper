@@ -28,9 +28,7 @@ export default function App() {
   const handleUncoverTile = (index: number) => {
     if (!gameActive) return;
 
-    setTiles((tiles) => {
-      return uncoverTile(tiles, index, width, height);
-    });
+    setTiles((tiles) => uncoverTile(tiles, index, width, height));
   };
 
   const resetGame = (width: number, height: number, mineCount: number) => {
@@ -79,12 +77,14 @@ export default function App() {
     };
   }, [gameActive]);
 
-  const handleToggleFlag = (index: number) => {
+  const handleToggleFlag = (
+    index: number,
+    placeOrRemove: "place" | "remove"
+  ) => {
     if (!gameActive) return;
-    if (remainingFlags <= 0) return;
 
     setTiles((tiles) => {
-      return toggleFlag(index, tiles);
+      return toggleFlag(index, tiles, placeOrRemove, mineCount);
     });
   };
 

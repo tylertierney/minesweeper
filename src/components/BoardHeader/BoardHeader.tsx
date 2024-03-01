@@ -46,8 +46,6 @@ export default function BoardHeader({
 
   const remainingFlagsDigits = getDigits(remainingFlags);
 
-  console.log(flagMode);
-
   return (
     <div
       className={styles.boardHeader}
@@ -90,7 +88,7 @@ export default function BoardHeader({
           className={styles.button}
           onClick={() => resetGame(width, height, mineCount)}
         >
-          🙂
+          {gameActive || winStatus === "won" ? "🙂" : "😵"}
         </button>
         <button
           className={`${styles.button}

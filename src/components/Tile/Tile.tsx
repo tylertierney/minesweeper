@@ -32,7 +32,7 @@ interface TileProps {
   index: number;
   uncoverTile: (index: number) => void;
   flagMode: boolean;
-  toggleFlag: (index: number) => void;
+  toggleFlag: (index: number, placeOrRemove: "place" | "remove") => void;
 }
 
 const Tile = ({
@@ -61,7 +61,7 @@ const Tile = ({
           }}
           onContextMenu={(e) => {
             e.preventDefault();
-            toggleFlag(index);
+            toggleFlag(index, "place");
             e.stopPropagation();
           }}
         >
@@ -69,7 +69,7 @@ const Tile = ({
             <div
               className="flagSpot"
               onClick={(e) => {
-                toggleFlag(index);
+                toggleFlag(index, "remove");
                 e.stopPropagation();
               }}
             >
@@ -81,10 +81,10 @@ const Tile = ({
       {tile.covered === true && flagMode === true && !tile.flagged && (
         <div
           className="flagSpot"
-          onClick={() => toggleFlag(index)}
+          onClick={() => toggleFlag(index, "place")}
           onContextMenu={(e) => {
             e.preventDefault();
-            toggleFlag(index);
+            toggleFlag(index, "place");
             e.stopPropagation();
           }}
         >
