@@ -140,6 +140,7 @@ export default function App() {
           .map((_, i) => {
             return (
               <div
+                key={i}
                 style={{
                   display: "flex",
                   marginBottom: i === height - 1 ? "400px" : "0px",
