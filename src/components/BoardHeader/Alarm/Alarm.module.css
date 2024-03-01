@@ -8,6 +8,10 @@
   justify-content: center;
   background-color: black;
   position: relative;
+  border-top: 2px solid var(--white-border);
+  border-left: 2px solid var(--white-border);
+  border-right: 2px solid var(--gray-border);
+  border-bottom: 2px solid var(--gray-border);
 
   .placeholder {
     color: darkred;

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { getDigits } from "../../utils";
 import styles from "./BoardHeader.module.css";
 import Dialog from "../Dialog/Dialog";
@@ -45,6 +45,14 @@ export default function BoardHeader({
   const elapsedTimeDigits = getDigits(elapsedTime);
 
   const remainingFlagsDigits = getDigits(remainingFlags);
+
+  useEffect(() => {
+    if (showPortal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [showPortal]);
 
   return (
     <div

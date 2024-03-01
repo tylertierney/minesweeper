@@ -13,6 +13,9 @@
   border-left: 2px solid white;
   border-top: 2px solid white;
 
+  height: 36px;
+  width: 36px;
+
 
   span.value {
     font-weight: bold;

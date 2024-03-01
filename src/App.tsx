@@ -117,36 +117,49 @@ export default function App() {
 
   return (
     <>
-      <div className="boardContainer" style={{ maxWidth: width * 40 + "px" }}>
-        <BoardHeader
-          elapsedTime={elapsedTime}
-          remainingFlags={remainingFlags}
-          resetGame={resetGame}
-          flagMode={flagMode}
-          setFlagMode={setFlagMode}
-          width={width}
-          height={height}
-          mineCount={mineCount}
-          winStatus={winStatus}
-          showPortal={showPortal}
-          setShowPortal={setShowPortal}
-          setWidth={setWidth}
-          setHeight={setHeight}
-          setMineCount={setMineCount}
-          gameActive={gameActive}
-        />
-        {tiles.map((tile, i) => {
-          return (
-            <Tile
-              key={i}
-              tile={tile}
-              index={i}
-              uncoverTile={handleUncoverTile}
-              flagMode={flagMode}
-              toggleFlag={handleToggleFlag}
-            />
-          );
-        })}
+      <BoardHeader
+        elapsedTime={elapsedTime}
+        remainingFlags={remainingFlags}
+        resetGame={resetGame}
+        flagMode={flagMode}
+        setFlagMode={setFlagMode}
+        width={width}
+        height={height}
+        mineCount={mineCount}
+        winStatus={winStatus}
+        showPortal={showPortal}
+        setShowPortal={setShowPortal}
+        setWidth={setWidth}
+        setHeight={setHeight}
+        setMineCount={setMineCount}
+        gameActive={gameActive}
+      />
+      <div className="boardContainer" style={{ marginTop: "2.5rem" }}>
+        {Array(height)
+          .fill(null)
+          .map((_, i) => {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  marginBottom: i === height - 1 ? "400px" : "0px",
+                }}
+              >
+                {Array(width)
+                  .fill(null)
+                  .map((_, j) => (
+                    <Tile
+                      key={i * width + j}
+                      tile={tiles[i * width + j]}
+                      index={i * width + j}
+                      uncoverTile={handleUncoverTile}
+                      flagMode={flagMode}
+                      toggleFlag={handleToggleFlag}
+                    />
+                  ))}
+              </div>
+            );
+          })}
       </div>
     </>
   );
