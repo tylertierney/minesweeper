@@ -17,7 +17,8 @@ export default defineConfig({
         icons: [
           {
             src: "/minesweeper/flag.svg",
-            sizes: "48x48 72x72 96x96 128x128 144x144 180x180 256x256 512x512",
+            sizes:
+              "48x48 72x72 96x96 120x120 128x128 144x144 180x180 256x256 512x512",
             type: "image/svg+xml",
             purpose: "any",
           },
